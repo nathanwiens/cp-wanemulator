@@ -51,9 +51,9 @@ echo ""
 echo "INSTALLING WEB FILES..."
 echo ""
 wget https://raw.githubusercontent.com/nathanwiens/cp-wanemulator/master/cp-wanemulator_files.tar.gz
-FILE="./meraki_wan_emulator_files.tar.gz"
+FILE="./cp-wanemulator_files.tar.gz"
 if [ -f $FILE ]; then
-	tar -zxvf $FILE -C /var/www/
+	tar -zxvf $FILE -C /var/www/html
 	touch $LOGFILE
 	chmod 777 $LOGFILE
 else
@@ -67,14 +67,14 @@ fi;
 echo ""
 echo "RECONFIGURING NETWORK INTERFACES"
 echo ""
-mv /var/www/html/interfaces /etc/network/
+#mv /var/www/html/interfaces /etc/network/
 tc qdisc replace dev eth0 root pfifo_fast
 tc qdisc replace dev eth1 root pfifo_fast
 
 #Configure Permissions
 echo ""
 echo "SETTING PERMISSIONS"
-echo "www-data        ALL=(ALL) NOPASSWD: /usr/sbin/tc" >> /etc/sudoers
+echo "www-data        ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo ""
 
 #Enable CGI
