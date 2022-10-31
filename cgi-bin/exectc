@@ -1,0 +1,94 @@
+#!/bin/bash
+echo 'Content-type: text/html'
+echo ''
+read
+latency=$(echo "$REPLY" | tr "&" "\n" | grep latency | cut -d "=" -f 2)
+var=$(echo "$REPLY" | tr "&" "\n" | grep var | cut -d "=" -f 2)
+loss=$(echo "$REPLY" | tr "&" "\n" | grep loss | cut -d "=" -f 2)
+bw=$(echo "$REPLY" | tr "&" "\n" | grep bw | cut -d "=" -f 2)
+echo '<html>
+
+<head>
+    <title>WAN Emulator</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/epoch/0.8.4/css/epoch.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="/all_css.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body id="ext-element-1"
+      class="epoch-theme-defaults x-body x-webkit x-chrome x-mac x-border-layout-ct x-border-box x-container x-container-default"
+      componentid="app-main-1010">
+
+<div class="x-container north-side x-border-item x-box-item x-container-default x-box-layout-ct"
+     style="border-width: 0px; width: 1118px; height: 116px; margin: 0px; right: auto; left: 0px; top: 0px;"
+     id="AdminHeader-1012">
+    <div id="AdminHeader-1012-innerCt" data-ref="innerCt" role="presentation" class="x-box-inner"
+         style="width: 1118px; height: 121px;">
+        <div id="AdminHeader-1012-targetEl" data-ref="targetEl" class="x-box-target" role="presentation"
+             style="width: 1118px;">
+            <div class="x-container x-box-item x-container-default x-box-layout-ct"
+                 style="width: 455px; right: auto; left: 0px; top: 0px; margin: 0px;" id="container-1013">
+                <div id="container-1013-innerCt" data-ref="innerCt" role="presentation" class="x-box-inner"
+                     style="width: 455px; height: 121px;">
+                    <div id="container-1013-targetEl" data-ref="targetEl" class="x-box-target" role="presentation">
+                        <img class="x-img x-box-item x-img-default"
+                                                    style="margin: 0px; right: auto; left: 40px; top: 40px;"
+                                                    id="image-1014"
+                                                    src="/cp_logo.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="x-panel x-border-item x-box-item x-panel-center-side" id="panel-1033" style="top:150px; left:40px">
+    <div id="main page">
+	<div id="content">
+		<div id="title"><h1>WAN Emulator- Results</h1></div>
+'
+if [ -z "$latency" ] || [ -z "$bw" ] || [ -z "$var" ] || [ -z "$loss" ] ; then
+echo '<h2>Error:</h2><br>Go back and try again!<br/><br/>'
+echo '<form action="/">
+    <input class="button" type="submit" value="Back" />
+</form>'
+else
+bw2=$(( bw * 1000 ))
+latency2=$(( latency / 2 ))
+loss2=$(( loss / 2 ))
+
+sudo tc qdisc del dev eth0 root
+sudo tc qdisc del dev eth1 root
+sudo tc qdisc add dev eth0 root handle 1: tbf rate "${bw}"Mbit burst "${bw}"K latency 5000ms
+sudo tc qdisc add dev eth1 root handle 1: tbf rate "${bw}"Mbit burst "${bw}"K latency 5000ms
+sudo tc qdisc add dev eth0 parent 1: handle 2: netem delay "${latency2}"ms "${var}"ms loss ${loss2}
+sudo tc qdisc add dev eth1 parent 1: handle 2: netem delay "${latency2}"ms "${var}"ms loss ${loss2}
+
+echo '<h2>Updated:</h2><hr /><br>'
+echo "<div class=label>Latency should now be:</div>
+		<div class=setting> <b>${latency} ms</b></div>
+		<div class=clear></div>"
+echo "<div class=label>Jitter should now be:</div>
+		<div class=setting> <b>${var} ms</b></div>
+		<div class=clear></div>"
+echo "<div class=label>Packet loss should now be:</div>
+		<div class=setting> <b>${loss}%</b></div>
+		<div class=clear></div>"
+echo "<div class=label>Bandwidth should now be:</div>
+		<div class=setting> <b>${bw} Mbps</b></div>
+		<div class=clear></div>"
+# tc qdisc | tr "\n" "#" | sed -e "s/#/<br\/>/g"
+echo '<br /><form action="/">
+    <input class="button" type="submit" value="Back" />
+</form>'
+fi
+echo '</div>
+</div>
+</div></body></html>'

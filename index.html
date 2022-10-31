@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <title>WAN Emulator</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/epoch/0.8.4/css/epoch.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="/all_css.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body id="ext-element-1"
+      class="epoch-theme-defaults x-body x-webkit x-chrome x-mac x-border-layout-ct x-border-box x-container x-container-default"
+      componentid="app-main-1010">
+
+<div class="x-container north-side x-border-item x-box-item x-container-default x-box-layout-ct"
+     style="border-width: 0px; width: 1118px; height: 116px; margin: 0px; right: auto; left: 0px; top: 0px;"
+     id="AdminHeader-1012">
+    <div id="AdminHeader-1012-innerCt" data-ref="innerCt" role="presentation" class="x-box-inner"
+         style="width: 1118px; height: 121px;">
+        <div id="AdminHeader-1012-targetEl" data-ref="targetEl" class="x-box-target" role="presentation"
+             style="width: 1118px;">
+            <div class="x-container x-box-item x-container-default x-box-layout-ct"
+                 style="width: 455px; right: auto; left: 0px; top: 0px; margin: 0px;" id="container-1013">
+                <div id="contaisner-1013-innerCt" data-ref="innerCt" role="presentation" class="x-box-inner"
+                     style="width: 455px; height: 121px;">
+                    <div id="container-1013-targetEl" data-ref="targetEl" class="x-box-target" role="presentation">
+                        <img class="x-img x-box-item x-img-default"
+                                                    style="margin: 0px; right: auto; left: 40px; top: 40px;"
+                                                    id="image-1014"
+                                                    src="cp_logo.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="x-panel x-border-item x-box-item x-panel-center-side" id="panel-1033" style="top:150px; left:40px">
+    <div id="main page">
+	<div id="content">
+		<div id="title"><h1>WAN Emulator</h1></div>
+		<div id="instructions">Use the settings below to dynamically change network performance through this device.</div>
+		<hr />
+
+	<form name="setting" action="/cgi-bin/exectc" method="post">
+		<br />
+		<div class="label">Latency (ms): </div>
+		<div class="setting"><input type="text" name="latency" value="0"></div>
+		<div class="clear"></div>
+
+		<div class="label">Jitter (ms): </div>
+		<div class="setting"><input type="text" name="var" value="0"></div>
+		<div class="clear"></div>
+
+		<div class="label">Packet loss (%): </div>
+		<div class="setting"><input type="text" name="loss" value="0"></div>
+		<div class="clear"></div>
+
+		<div class="label">Bandwidth (Mbps): </div>
+		<div class="setting"><input type="text" name="bw" value="100"></div>
+		<div class="clear"></div>
+
+		<br />
+		<div id="submit">
+			<input class="button" type="submit" value="Configure">
+		<br /><br /><br />
+                </div>
+	</form>
+	<!--<div class="diagram"><a href="diagram.png" target="_blank"><img src="diagram.png" width="700"/></a></div>-->
+	</div>
+</div>
+</div>
+</body>
+</html>
