@@ -123,6 +123,10 @@ while true; do
 			BAD="$[interval/2]"
 			crontab -l | { cat; echo "*/$GOOD * * * * bash /var/www/html/cron/perf-good.sh >> /var/www/sdwanlog.txt"; } | crontab -
 			crontab -l | { cat; echo "*/$BAD * * * * bash /var/www/html/cron/perf-bad.sh >> /var/www/sdwanlog.txt"; } | crontab -
+			sed -i "s/eth0/$E0/g" /var/www/html/cron/perf-good.sh
+			sed -i "s/eth0/$E1/g" /var/www/html/cron/perf-good.sh
+			sed -i "s/eth0/$E0/g" /var/www/html/cron/perf-bad.sh
+			sed -i "s/eth0/$E1/g" /var/www/html/cron/perf-bad.sh
 			break
 		  fi
 	  done
