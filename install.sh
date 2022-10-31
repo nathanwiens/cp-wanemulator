@@ -68,8 +68,8 @@ echo ""
 echo "RECONFIGURING NETWORK INTERFACES"
 echo ""
 #mv /var/www/html/interfaces /etc/network/
-tc qdisc replace dev eth0 root pfifo_fast
-tc qdisc replace dev eth1 root pfifo_fast
+tc qdisc replace dev $E0 root pfifo_fast
+tc qdisc replace dev $E1 root pfifo_fast
 
 #Configure Permissions
 echo ""
@@ -84,6 +84,8 @@ lighty-enable-mod cgi
 mv /var/www/html/cgi-bin/exectc /usr/lib/cgi-bin/
 chown www-data:www-data /usr/lib/cgi-bin/exectc
 chmod +x /usr/lib/cgi-bin/exectc
+sed -i "s/eth0/$E0/g" /usr/lib/cgi-bin/exectc
+sed -i "s/eth0/$E1/g" /usr/lib/cgi-bin/exectc
 rm -r /var/www/html/cgi-bin
 ln -s /usr/lib/cgi-bin /var/www/html/
 echo ""
