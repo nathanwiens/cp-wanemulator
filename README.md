@@ -17,7 +17,7 @@ This script will:
 To install, simply run this command:
 
 ```
-wget https://raw.githubusercontent.com/nathanwiens/cp-wanemulator/master/install.sh && chmod a+x install.sh && sudo ./install.sh
+wget https://raw.githubusercontent.com/nathanwiens/cp-wanemulator/main/install.sh && chmod a+x install.sh && sudo ./install.sh
 ```
 
 You can either cycle the WAN Emulation automatically (via cron job), or set it manually via the web interface.
